@@ -569,13 +569,14 @@ certutil -hashfile <span data-latest-zip>JaegerToolkit-1.37.5.zip</span> SHA256<
       .then(function (data) {
         var list = data.filter(function (r) { return !r.draft && !r.prerelease; }).map(function (r) {
           var zip = r.assets.filter(function (a) { return /\.zip$/.test(a.name); })[0];
-          return zip && { tag: r.tag_name, published: r.published_at, body: r.body || '', zip: { name: zip.name, size: zip.size, url: zip.browser_download_url } };
+          return zip && { tag: r.tag_name, published: r.published_at, body: r.body || '', zip: { name: zip.name, size: zip.size, url: zip.browser_download_url, digest: zip.digest } };
         }).filter(Boolean);
-        if (list.length) render(list);
-        return fetch('https://github.com/' + REPO + '/releases/latest/download/latest.json');
+        if (!list.length) return;
+        render(list);
+        // GitHub lists each file's SHA-256 (the same one latest.json signs); latest.json itself can't be read from a page
+        var digest = /^sha256:([0-9a-f]{64})$/.exec(list[0].zip.digest || '');
+        if (digest) document.getElementById('sha').textContent = digest[1];
       })
-      .then(function (r) { return r && r.ok ? r.json() : null; })
-      .then(function (feed) { if (feed && feed.sha256) document.getElementById('sha').textContent = feed.sha256; })
       .catch(function () {});
   }
 
