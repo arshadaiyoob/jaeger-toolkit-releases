@@ -17,6 +17,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/hugeicons.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: one calm column like the app's Settings pages; the Claude orb's glow is the single loud moment, behind the hero window. */
@@ -133,14 +134,14 @@ h1 .soft { color: var(--muted); }
 .btn-primary:hover { background: color-mix(in srgb, var(--accent) 88%, white); }
 .btn-primary .sub { font-weight: 400; opacity: .78; font-size: 13px; }
 .btn-quiet { background: var(--raised); color: var(--fg); border-color: var(--line); }
-.btn svg { width: 16px; height: 16px; flex: none; }
+.btn .hgi { width: 16px; height: 16px; flex: none; }
 
 .facts {
   display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 4px 0 0; padding: 0; list-style: none;
   font-size: 13px; color: var(--muted);
 }
 .facts li { display: flex; align-items: center; gap: 6px; }
-.facts svg { width: 15px; height: 15px; color: var(--ok); flex: none; }
+.facts .hgi { width: 15px; height: 15px; color: var(--ok); flex: none; }
 
 /* the window, with the orb glowing behind it */
 .stage { position: relative; margin-top: 36px; isolation: isolate; }
@@ -173,7 +174,7 @@ h1 .soft { color: var(--muted); }
   font: 500 12px/1 var(--font-body); color: var(--muted); background: transparent; border: 0; cursor: pointer;
   padding: 5px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 5px;
 }
-.seg button svg { width: 12px; height: 12px; }
+.seg button .hgi { width: 12px; height: 12px; }
 .seg button[aria-pressed="true"] { background: var(--raised); color: var(--fg); box-shadow: 0 1px 2px rgb(0 0 0 / .25); }
 .stage .window[data-shot="light"] .shot-light { opacity: 1; }
 .stage .window[data-shot="light"] .shot-dark { opacity: 0; }
@@ -294,7 +295,7 @@ html:not(.motion) .span, .trace.in .span { animation: grow .8s cubic-bezier(.2,.
 .person .who { display: grid; gap: 2px; min-width: 0; }
 .person .name { font: 600 18px/1.25 var(--font-body); }
 .person .handle { display: inline-flex; align-items: center; gap: 6px; font: 13px var(--font-mono); color: var(--muted); }
-.person .handle svg { width: 14px; height: 14px; }
+.person .handle .hgi { width: 14px; height: 14px; }
 .person .role { margin-top: 8px; color: var(--muted); font-size: 15px; }
 .person .role b { color: var(--fg); font-weight: 600; }
 
@@ -304,8 +305,8 @@ footer p { margin: 0; max-width: 64ch; }
 
 /* nav: GitHub */
 .nav .gh { display: inline-flex; align-items: center; gap: 7px; }
-.nav .gh svg { width: 16px; height: 16px; transition: transform .25s cubic-bezier(.3,1.6,.5,1); }
-.nav .gh:hover svg { transform: rotate(-8deg) scale(1.12); }
+.nav .gh .hgi { width: 16px; height: 16px; transition: transform .25s cubic-bezier(.3,1.6,.5,1); }
+.nav .gh:hover .hgi { transform: rotate(-8deg) scale(1.12); }
 
 /* motion: the hero arrives in order once the splash opens; the rest rises in as it scrolls into view.
    Without script nothing is hidden. */
@@ -370,7 +371,7 @@ html.no-splash .splash { display: none; }
       <li><a href="#install">Install</a></li>
       <li><a href="#releases">Releases</a></li>
       <li><a href="#verify">Verify</a></li>
-      <li><a class="gh" href="https://github.com/arshadaiyoob/jaeger-toolkit-releases" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a></li>
+      <li><a class="gh" href="https://github.com/arshadaiyoob/jaeger-toolkit-releases" target="_blank" rel="noopener"><i class="hgi hgi-stroke hgi-github" aria-hidden="true"></i>GitHub</a></li>
     </ul>
   </div>
 </nav>
@@ -382,23 +383,23 @@ html.no-splash .splash { display: none; }
     <p class="lede">A new interface for Jaeger: <b>search in plain words</b>, <b>traces that read like a story</b>, and <b>Claude beside every trace</b>. Same Jaeger. Same data. Easier to read.</p>
     <div class="cta">
       <a class="btn btn-primary" data-latest-href href="https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.5/JaegerToolkit-1.37.5.zip">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v9M4 7.5 8 11.5l4-4M3 14h10"/></svg>
+        <i class="hgi hgi-stroke hgi-download-04" aria-hidden="true"></i>
         <span>Download <span data-latest-version>1.37.5</span> <span class="sub" data-latest-size>· zip, 1.1 MB</span></span>
       </a>
       <a class="btn btn-quiet" href="#install">How to install</a>
     </div>
     <ul class="facts">
-      <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1.75" y="2.75" width="12.5" height="10.5" rx="2"/><path d="M1.75 5.75h12.5"/><circle cx="4" cy="4.25" r=".4" fill="currentColor"/><circle cx="5.6" cy="4.25" r=".4" fill="currentColor"/></svg>Chrome and Edge</li>
-      <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1.75 13.25 3.75v4c0 3.1-2.2 5.4-5.25 6.5C4.95 13.15 2.75 10.85 2.75 7.75v-4Z"/><path d="m5.75 8 1.6 1.6 3-3.2"/></svg>Signed releases</li>
-      <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.25 8A5.25 5.25 0 1 1 11.7 4.3"/><path d="M13.25 2.25v2.5h-2.5"/></svg>Updates itself from Settings › About</li>
-      <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="10" height="7" rx="1.25"/><path d="M1.5 12.75h13"/></svg>Runs in your browser, on your Jaeger</li>
+      <li><i class="hgi hgi-stroke hgi-browser" aria-hidden="true"></i>Chrome and Edge</li>
+      <li><i class="hgi hgi-stroke hgi-security-check" aria-hidden="true"></i>Signed releases</li>
+      <li><i class="hgi hgi-stroke hgi-refresh" aria-hidden="true"></i>Updates itself from Settings › About</li>
+      <li><i class="hgi hgi-stroke hgi-laptop" aria-hidden="true"></i>Runs in your browser, on your Jaeger</li>
     </ul>
     <div class="stage">
       <div class="window" data-shot="dark">
         <div class="bar"><i></i><i></i><i></i><span>jaeger › Search</span>
           <div class="seg" role="group" aria-label="Screenshot look">
-            <button type="button" data-shot="dark" aria-pressed="true"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.5 10.2A6 6 0 0 1 5.8 2.5a6 6 0 1 0 7.7 7.7Z"/></svg>Dark</button>
-            <button type="button" data-shot="light" aria-pressed="false"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8" cy="8" r="3"/><path d="M8 1.5v1.5M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1 1M11.6 11.6l1 1M3.4 12.6l1-1M11.6 4.4l1-1"/></svg>Light</button>
+            <button type="button" data-shot="dark" aria-pressed="true"><i class="hgi hgi-stroke hgi-moon-02" aria-hidden="true"></i>Dark</button>
+            <button type="button" data-shot="light" aria-pressed="false"><i class="hgi hgi-stroke hgi-sun-03" aria-hidden="true"></i>Light</button>
           </div>
         </div>
         <div class="shots">
@@ -509,7 +510,7 @@ native-host\install.cmd</pre><button class="copy" type="button" data-copy="sh na
     <div class="verify">
       <div class="panel">
         <h3>SHA-256 of <span data-latest-version>1.37.5</span></h3>
-        <p class="hash" id="sha">20f212f278bb94ca737d344519b549ca49b12c8b0c48904f4603b345a49575ae</p>
+        <p class="hash" id="sha">7422a765d5395fe79e1d2e213204028e89ab9345e705d9d40aa4def8190f2efb</p>
         <button class="btn btn-quiet" type="button" id="copy-sha" style="width:fit-content;padding:9px 14px;font-size:14px">Copy hash</button>
       </div>
       <div class="panel compare">
@@ -537,7 +538,7 @@ certutil -hashfile <span data-latest-zip>JaegerToolkit-1.37.5.zip</span> SHA256<
         <img src="assets/av-dimuththarindu.jpg" alt="" width="72" height="72" loading="lazy">
         <span class="who">
           <span class="name">Dimuth Tharindu</span>
-          <span class="handle"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>dimuththarindu</span>
+          <span class="handle"><i class="hgi hgi-stroke hgi-github" aria-hidden="true"></i>dimuththarindu</span>
           <span class="role"><b>Initial idea and implementation.</b> Where the toolkit began.</span>
         </span>
       </a>
@@ -545,7 +546,7 @@ certutil -hashfile <span data-latest-zip>JaegerToolkit-1.37.5.zip</span> SHA256<
         <img src="assets/av-arshadaiyoob.png" alt="" width="72" height="72" loading="lazy">
         <span class="who">
           <span class="name">Arshad Aiyoob</span>
-          <span class="handle"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>arshadaiyoob</span>
+          <span class="handle"><i class="hgi hgi-stroke hgi-github" aria-hidden="true"></i>arshadaiyoob</span>
           <span class="role"><b>UI and Claude.</b> The new interface, and Claude beside every trace.</span>
         </span>
       </a>
@@ -560,7 +561,7 @@ certutil -hashfile <span data-latest-zip>JaegerToolkit-1.37.5.zip</span> SHA256<
   </div>
 </footer>
 
-<script type="application/json" id="release-data">[{"tag":"v1.37.5","published":"2026-11-01T01:58:22Z","body":"\n- **No scrollbar flashes on the welcome card** as it eases to the next page's height. It still scrolls on a window too\n  short for it, and never sideways.\n\n\n### Install\nDownload **JaegerToolkit-1.37.5.zip** below, unzip it, then in `chrome://extensions` turn on Developer mode and choose **Load unpacked**. Updating: replace the folder and click reload on the extension's card.\n","zip":{"name":"JaegerToolkit-1.37.5.zip","size":1093395,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.5/JaegerToolkit-1.37.5.zip"}},{"tag":"v1.37.4","published":"2026-11-01T01:51:10Z","body":"\n- **The welcome card no longer redraws itself.**\n  - Search, Trace and Claude: the selected pill slides across, the pictures fade from one to the next and the words\n    follow. The divider stays where you left it.\n  - A look or a palette changes only the choice and the card's colours, which ease into the new look.\n  - Next and Back slide the page in from the side it comes from, and the card eases to its new height. The dots grow\n    into place.\n- **\"Let's go\" sends the card down into the Claude orb** at the bottom right, instead of fading out.\n\n\n### Install\nDownload **JaegerToolkit-1.37.4.zip** below, unzip it, then in `chrome://extensions` turn on Developer mode and choose **Load unpacked**. Updating: replace the folder and click reload on the extension's card.\n","zip":{"name":"JaegerToolkit-1.37.4.zip","size":1093184,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.4/JaegerToolkit-1.37.4.zip"}},{"tag":"v1.37.3","published":"2026-11-01T00:26:51Z","body":"\n- **The update shows its progress as it happens.**\n  - The download fills its part of the bar as it arrives, with how much is in (\"0.6 of 1.1 MB\").\n  - The bar glides from step to step with a soft light running along it.\n  - The steps rise in one after another. The current one has a turning ring, and a finished one pops a green tick.\n  - Checking for updates turns its icon.\n  - Only the bar and the steps change while it runs, so the motion never starts over.\n\n\n### Install\nDownload **JaegerToolkit-1.37.3.zip** below, unzip it, then in `chrome://extensions` turn on Developer mode and choose **Load unpacked**. Updating: replace the folder and click reload on the extension's card.\n","zip":{"name":"JaegerToolkit-1.37.3.zip","size":1092056,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.3/JaegerToolkit-1.37.3.zip"}},{"tag":"v1.37.2","published":"2026-11-01T00:22:34Z","body":"\n- **After an update, open Jaeger tabs reload by themselves.** They used to stay on \"Restarting\" until you refreshed\n  them: the restart had cut them off from the new version. Reloading the extension by hand still leaves your tabs\n  alone.\n\n\n### Install\nDownload **JaegerToolkit-1.37.2.zip** below, unzip it, then in `chrome://extensions` turn on Developer mode and choose **Load unpacked**. Updating: replace the folder and click reload on the extension's card.\n","zip":{"name":"JaegerToolkit-1.37.2.zip","size":1090944,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.2/JaegerToolkit-1.37.2.zip"}},{"tag":"v1.37.1","published":"2026-11-01T00:16:59Z","body":"\n- **Releases publish themselves.** From this version the release workflow signs each release and puts it in the public\n  releases repository on its own, so Software Update offers it to everyone within a day (or at once with Check now).\n\n\n### Install\nDownload **JaegerToolkit-1.37.1.zip** below, unzip it, then in `chrome://extensions` turn on Developer mode and choose **Load unpacked**. Updating: replace the folder and click reload on the extension's card.\n","zip":{"name":"JaegerToolkit-1.37.1.zip","size":1090587,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.1/JaegerToolkit-1.37.1.zip"}},{"tag":"v1.37.0","published":"2026-10-31T20:49:52Z","body":"\n- **Software Update** (Settings › About). The toolkit checks for a newer release when the browser starts and once a\n  day, and on Check now; Check automatically can be turned off.\n  - **Where it shows:** an Update badge on the toolkit's card at the top of Settings, the version with its notes in\n    About, and one quiet toast in Jaeger per new version.\n  - **Update now:** the helper on your computer (the one Claude Code uses) downloads the release, checks it, puts the\n    files in the folder the extension is loaded from, and the extension restarts. Settings, documents and history\n    stay: they live in the browser.\n  - **Signed:** a release is installed only when its signature matches the release key shipped with the toolkit, and\n    only if its size and SHA-256 match what was signed. Any failure leaves the version you have in place.\n  - **Never overwritten:** a git checkout, which shows git pull instead.\n  - **Without the helper:** Download gets the zip, to load unpacked as before.\n- **Releases** are published, signed, to a public repository that holds only the built zips\n  (arshadaiyoob/jaeger-toolkit-releases), so nobody needs a GitHub login to update. The source stays private.\n  - tools/release-key.mjs makes the signing key once.\n  - tools/release-feed.mjs signs each release's feed in the release workflow.\n\n","zip":{"name":"JaegerToolkit-1.37.0.zip","size":1090517,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.0/JaegerToolkit-1.37.0.zip"}}]</script>
+<script type="application/json" id="release-data">[{"tag":"v1.38.0","published":"2026-11-01T04:53:31Z","body":"\n- **New icons, from Hugeicons.** Every icon in the toolkit and on the download site now comes from one family,\n  Hugeicons Stroke Rounded, in place of the hand-drawn ones.\n  - They are as heavy as the old ones, and each sits in the middle of its button. The font is cut down to the icons\n    the toolkit uses, about 19 KB, and built in, so nothing loads from the internet.\n  - The icons in Settings are larger and fill their tiles.\n  - The search's refresh icon is a single circular arrow, and it turns in place while a search runs.\n- `tools/build-hugeicons.py` rebuilds the icon font after a new icon is used.\n\n\n### Install\nDownload **JaegerToolkit-1.38.0.zip** below, unzip it, then in `chrome://extensions` turn on Developer mode and choose **Load unpacked**. Updating: replace the folder and click reload on the extension's card.\n","zip":{"name":"JaegerToolkit-1.38.0.zip","size":1112822,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.38.0/JaegerToolkit-1.38.0.zip"}},{"tag":"v1.37.5","published":"2026-11-01T01:58:22Z","body":"\n- **No scrollbar flashes on the welcome card** as it eases to the next page's height. It still scrolls on a window too\n  short for it, and never sideways.\n\n\n### Install\nDownload **JaegerToolkit-1.37.5.zip** below, unzip it, then in `chrome://extensions` turn on Developer mode and choose **Load unpacked**. Updating: replace the folder and click reload on the extension's card.\n","zip":{"name":"JaegerToolkit-1.37.5.zip","size":1093395,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.5/JaegerToolkit-1.37.5.zip"}},{"tag":"v1.37.4","published":"2026-11-01T01:51:10Z","body":"\n- **The welcome card no longer redraws itself.**\n  - Search, Trace and Claude: the selected pill slides across, the pictures fade from one to the next and the words\n    follow. The divider stays where you left it.\n  - A look or a palette changes only the choice and the card's colours, which ease into the new look.\n  - Next and Back slide the page in from the side it comes from, and the card eases to its new height. The dots grow\n    into place.\n- **\"Let's go\" sends the card down into the Claude orb** at the bottom right, instead of fading out.\n\n\n### Install\nDownload **JaegerToolkit-1.37.4.zip** below, unzip it, then in `chrome://extensions` turn on Developer mode and choose **Load unpacked**. Updating: replace the folder and click reload on the extension's card.\n","zip":{"name":"JaegerToolkit-1.37.4.zip","size":1093184,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.4/JaegerToolkit-1.37.4.zip"}},{"tag":"v1.37.3","published":"2026-11-01T00:26:51Z","body":"\n- **The update shows its progress as it happens.**\n  - The download fills its part of the bar as it arrives, with how much is in (\"0.6 of 1.1 MB\").\n  - The bar glides from step to step with a soft light running along it.\n  - The steps rise in one after another. The current one has a turning ring, and a finished one pops a green tick.\n  - Checking for updates turns its icon.\n  - Only the bar and the steps change while it runs, so the motion never starts over.\n\n\n### Install\nDownload **JaegerToolkit-1.37.3.zip** below, unzip it, then in `chrome://extensions` turn on Developer mode and choose **Load unpacked**. Updating: replace the folder and click reload on the extension's card.\n","zip":{"name":"JaegerToolkit-1.37.3.zip","size":1092056,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.3/JaegerToolkit-1.37.3.zip"}},{"tag":"v1.37.2","published":"2026-11-01T00:22:34Z","body":"\n- **After an update, open Jaeger tabs reload by themselves.** They used to stay on \"Restarting\" until you refreshed\n  them: the restart had cut them off from the new version. Reloading the extension by hand still leaves your tabs\n  alone.\n\n\n### Install\nDownload **JaegerToolkit-1.37.2.zip** below, unzip it, then in `chrome://extensions` turn on Developer mode and choose **Load unpacked**. Updating: replace the folder and click reload on the extension's card.\n","zip":{"name":"JaegerToolkit-1.37.2.zip","size":1090944,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.2/JaegerToolkit-1.37.2.zip"}},{"tag":"v1.37.1","published":"2026-11-01T00:16:59Z","body":"\n- **Releases publish themselves.** From this version the release workflow signs each release and puts it in the public\n  releases repository on its own, so Software Update offers it to everyone within a day (or at once with Check now).\n\n\n### Install\nDownload **JaegerToolkit-1.37.1.zip** below, unzip it, then in `chrome://extensions` turn on Developer mode and choose **Load unpacked**. Updating: replace the folder and click reload on the extension's card.\n","zip":{"name":"JaegerToolkit-1.37.1.zip","size":1090587,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.1/JaegerToolkit-1.37.1.zip"}},{"tag":"v1.37.0","published":"2026-10-31T20:49:52Z","body":"\n- **Software Update** (Settings › About). The toolkit checks for a newer release when the browser starts and once a\n  day, and on Check now; Check automatically can be turned off.\n  - **Where it shows:** an Update badge on the toolkit's card at the top of Settings, the version with its notes in\n    About, and one quiet toast in Jaeger per new version.\n  - **Update now:** the helper on your computer (the one Claude Code uses) downloads the release, checks it, puts the\n    files in the folder the extension is loaded from, and the extension restarts. Settings, documents and history\n    stay: they live in the browser.\n  - **Signed:** a release is installed only when its signature matches the release key shipped with the toolkit, and\n    only if its size and SHA-256 match what was signed. Any failure leaves the version you have in place.\n  - **Never overwritten:** a git checkout, which shows git pull instead.\n  - **Without the helper:** Download gets the zip, to load unpacked as before.\n- **Releases** are published, signed, to a public repository that holds only the built zips\n  (arshadaiyoob/jaeger-toolkit-releases), so nobody needs a GitHub login to update. The source stays private.\n  - tools/release-key.mjs makes the signing key once.\n  - tools/release-feed.mjs signs each release's feed in the release workflow.\n\n","zip":{"name":"JaegerToolkit-1.37.0.zip","size":1090517,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.0/JaegerToolkit-1.37.0.zip"}}]</script>
 <script>
 (function () {
   var REPO = 'arshadaiyoob/jaeger-toolkit-releases';
