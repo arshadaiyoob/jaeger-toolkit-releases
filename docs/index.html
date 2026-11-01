@@ -163,17 +163,20 @@ h1 .soft { color: var(--muted); }
 .window .bar i { width: 11px; height: 11px; border-radius: 50%; background: var(--line); }
 .window .bar > span { margin-left: 10px; font: 12px var(--font-mono); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .window img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; }
-.shot-light { display: none; }
+/* both looks load with the page and sit in one cell; the switch cross-fades them */
+.window .shots { display: grid; }
+.window .shots img { grid-area: 1 / 1; transition: opacity .45s ease; }
+.shot-light { opacity: 0; }
 .seg { margin-left: auto; display: inline-flex; padding: 2px; gap: 2px; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); flex: none; }
 .seg button {
+  transition: background .25s ease, color .25s ease, box-shadow .25s ease;
   font: 500 12px/1 var(--font-body); color: var(--muted); background: transparent; border: 0; cursor: pointer;
   padding: 5px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 5px;
 }
 .seg button svg { width: 12px; height: 12px; }
 .seg button[aria-pressed="true"] { background: var(--raised); color: var(--fg); box-shadow: 0 1px 2px rgb(0 0 0 / .25); }
-.stage .window[data-shot="dark"] .shot-dark, .stage .window[data-shot="light"] .shot-light { display: block; animation: shotIn .35s ease both; }
-.stage .window[data-shot="dark"] .shot-light, .stage .window[data-shot="light"] .shot-dark { display: none; }
-@keyframes shotIn { from { opacity: .3; } to { opacity: 1; } }
+.stage .window[data-shot="light"] .shot-light { opacity: 1; }
+.stage .window[data-shot="light"] .shot-dark { opacity: 0; }
 
 /* sections */
 section { padding-block: 88px 0; scroll-margin-top: 64px; }
@@ -398,8 +401,10 @@ html.no-splash .splash { display: none; }
             <button type="button" data-shot="light" aria-pressed="false"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8" cy="8" r="3"/><path d="M8 1.5v1.5M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1 1M11.6 11.6l1 1M3.4 12.6l1-1M11.6 4.4l1-1"/></svg>Light</button>
           </div>
         </div>
+        <div class="shots">
         <img class="shot-dark" src="assets/search-dark.jpg" alt="The search page in the dark look: a library on the left, results with chips for restaurant, order and status, and a preview of the selected trace on the right." width="1440" height="900">
-        <img class="shot-light" src="assets/search-light.jpg" alt="The search page in the light look." width="1440" height="900" loading="lazy">
+        <img class="shot-light" src="assets/search-light.jpg" alt="The search page in the light look." width="1440" height="900" fetchpriority="low">
+        </div>
       </div>
     </div>
   </header>
