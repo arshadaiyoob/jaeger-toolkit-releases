@@ -1,0 +1,619 @@
+<!doctype html>
+<!-- Jaeger Toolkit's download site, served by GitHub Pages from arshadaiyoob/jaeger-toolkit-releases.
+     Source: site/ in the private repository; node tools/site.mjs builds it and --publish puts it live (docs/SITE.md). -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jaeger Toolkit Releases</title>
+<meta name="description" content="Download Jaeger Toolkit: a calmer interface for Jaeger, with search in plain words, traces that read like a story, and Claude beside every trace.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jaeger Toolkit">
+<meta property="og:description" content="Jaeger, made calm. Search in plain words, traces that read like a story, and Claude beside every trace.">
+<meta property="og:url" content="https://arshadaiyoob.github.io/jaeger-toolkit-releases/">
+<meta property="og:image" content="https://arshadaiyoob.github.io/jaeger-toolkit-releases/assets/search-dark.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one calm column like the app's Settings pages; the Claude orb's glow is the single loud moment, behind the hero window. */
+:root {
+  --bg: #111216;
+  --surface: #1a1c21;
+  --raised: #22252c;
+  --line: #2b2e37;
+  --fg: #eceef2;
+  --muted: #989dab;
+  --accent: #0a84ff;
+  --accent-ink: #ffffff;
+  --ok: #30d158;
+  --orb-blue: #0a84ff; --orb-pink: #ff6482; --orb-purple: #bf5af2; --orb-teal: #40c8e0;
+  --span-1: #ffd60a; --span-2: #30d158; --span-3: #0a84ff; --span-4: #bf5af2; --span-5: #ff6482; --span-6: #40c8e0;
+  --glow: .55;
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f4f5f8; --surface: #ffffff; --raised: #eef0f4; --line: #dfe2e8;
+    --fg: #15171c; --muted: #5b606d; --accent: #0066d6; --accent-ink: #ffffff; --ok: #1f9d45;
+    --span-1: #d9a400; --span-2: #24a148; --span-3: #0a6fe0; --span-4: #9b44d0; --span-5: #e0475f; --span-6: #1b9db5;
+    --glow: .32;
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f4f5f8; --surface: #ffffff; --raised: #eef0f4; --line: #dfe2e8;
+  --fg: #15171c; --muted: #5b606d; --accent: #0066d6; --accent-ink: #ffffff; --ok: #1f9d45;
+  --span-1: #d9a400; --span-2: #24a148; --span-3: #0a6fe0; --span-4: #9b44d0; --span-5: #e0475f; --span-6: #1b9db5;
+  --glow: .32;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--fg);
+  font: 16px/1.55 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+code, .mono { font-family: var(--font-mono); font-size: .88em; }
+kbd {
+  font: 500 12px/1 var(--font-mono); padding: 3px 6px; border-radius: 6px;
+  background: var(--raised); border: 1px solid var(--line); color: var(--fg);
+}
+
+.wrap {
+  max-width: 1080px; margin: 0 auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+
+/* nav */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: saturate(160%) blur(14px); -webkit-backdrop-filter: saturate(160%) blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.nav .wrap { display: flex; align-items: center; gap: 20px; height: 56px; }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--fg); font-weight: 600; }
+.brand:hover { text-decoration: none; }
+.brand .avatar {
+  /* the icon cropped to the gopher's orb (centre 64,62 and radius 40 on its 128px tile) */
+  position: relative; width: 38px; height: 38px; border-radius: 50%; overflow: hidden; flex: none;
+  background: #16171c; box-shadow: 0 0 0 1px var(--line), 0 4px 14px -6px rgb(0 0 0 / .5);
+}
+.brand .avatar img { position: absolute; width: 60.8px; height: 60.8px; max-width: none; left: -11.4px; top: -10.45px; }
+.brand small { display: block; font: 400 11px/1.1 var(--font-body); color: var(--muted); }
+.nav ul { display: flex; gap: 4px; list-style: none; margin: 0 0 0 auto; padding: 0; }
+.nav ul a { color: var(--muted); font-size: 14px; padding: 6px 10px; border-radius: 8px; }
+.nav ul a:hover { color: var(--fg); background: var(--raised); text-decoration: none; }
+@media (max-width: 620px) { .nav ul li:not(:last-child) { display: none; } }
+@media (max-width: 480px) { .window .bar > span { display: none; } }
+
+/* hero */
+.hero { padding-block: 72px 24px; display: grid; gap: 22px; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px; width: fit-content;
+  font-size: 13px; color: var(--muted); letter-spacing: .02em;
+}
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 25%, transparent); }
+h1 {
+  font: 700 clamp(44px, 8vw, 84px)/1 var(--font-display);
+  letter-spacing: -.035em; margin: 0; text-wrap: balance;
+}
+h1 .soft { color: var(--muted); }
+.lede { font-size: clamp(17px, 2.2vw, 20px); color: var(--muted); max-width: 40ch; margin: 0; text-wrap: pretty; }
+.lede b { color: var(--fg); font-weight: 600; }
+
+.cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 6px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  font: 600 15px/1 var(--font-body); padding: 13px 18px; border-radius: 12px;
+  border: 1px solid transparent; cursor: pointer; transition: transform .12s ease, background .2s;
+}
+.btn:hover { text-decoration: none; }
+.btn:active { transform: scale(.97); }
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { background: color-mix(in srgb, var(--accent) 88%, white); }
+.btn-primary .sub { font-weight: 400; opacity: .78; font-size: 13px; }
+.btn-quiet { background: var(--raised); color: var(--fg); border-color: var(--line); }
+.btn svg { width: 16px; height: 16px; flex: none; }
+
+.facts {
+  display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 4px 0 0; padding: 0; list-style: none;
+  font-size: 13px; color: var(--muted);
+}
+.facts li { display: flex; align-items: center; gap: 6px; }
+.facts svg { width: 15px; height: 15px; color: var(--ok); flex: none; }
+
+/* the window, with the orb glowing behind it */
+.stage { position: relative; margin-top: 36px; isolation: isolate; }
+.stage::before {
+  content: ""; position: absolute; inset: 8% -6% -14% -6%; z-index: -1; filter: blur(60px); opacity: var(--glow);
+  background:
+    radial-gradient(40% 55% at 22% 80%, var(--orb-blue), transparent 70%),
+    radial-gradient(35% 50% at 52% 95%, var(--orb-purple), transparent 70%),
+    radial-gradient(35% 50% at 80% 78%, var(--orb-pink), transparent 70%),
+    radial-gradient(30% 40% at 6% 40%, var(--orb-teal), transparent 70%);
+  animation: breathe 9s ease-in-out infinite alternate;
+}
+@keyframes breathe { from { transform: scale(1); } to { transform: scale(1.05) translateY(-1.5%); } }
+.window {
+  border-radius: 14px; overflow: hidden; background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 30px 80px -30px rgb(0 0 0 / .55), 0 0 0 .5px rgb(255 255 255 / .04) inset;
+}
+.window .bar { display: flex; align-items: center; gap: 7px; height: 34px; padding-inline: 14px; border-bottom: 1px solid var(--line); background: var(--raised); }
+.window .bar i { width: 11px; height: 11px; border-radius: 50%; background: var(--line); }
+.window .bar > span { margin-left: 10px; font: 12px var(--font-mono); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.window img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; }
+.shot-light { display: none; }
+.seg { margin-left: auto; display: inline-flex; padding: 2px; gap: 2px; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); flex: none; }
+.seg button {
+  font: 500 12px/1 var(--font-body); color: var(--muted); background: transparent; border: 0; cursor: pointer;
+  padding: 5px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 5px;
+}
+.seg button svg { width: 12px; height: 12px; }
+.seg button[aria-pressed="true"] { background: var(--raised); color: var(--fg); box-shadow: 0 1px 2px rgb(0 0 0 / .25); }
+.stage .window[data-shot="dark"] .shot-dark, .stage .window[data-shot="light"] .shot-light { display: block; animation: shotIn .35s ease both; }
+.stage .window[data-shot="dark"] .shot-light, .stage .window[data-shot="light"] .shot-dark { display: none; }
+@keyframes shotIn { from { opacity: .3; } to { opacity: 1; } }
+
+/* sections */
+section { padding-block: 88px 0; scroll-margin-top: 64px; }
+.head { display: grid; gap: 10px; margin-bottom: 32px; max-width: 62ch; }
+.label { font-size: 12px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+h2 { font: 700 clamp(30px, 4.4vw, 44px)/1.08 var(--font-display); letter-spacing: -.025em; margin: 0; text-wrap: balance; }
+.head p { margin: 0; color: var(--muted); }
+
+/* features */
+.features { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 760px) { .features { grid-template-columns: 1fr; } }
+.feature { display: grid; gap: 14px; align-content: start; }
+.feature .window { border-radius: 12px; }
+.feature h3 { font: 600 18px/1.3 var(--font-body); margin: 0; }
+.feature p { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
+
+/* release path, drawn as a Jaeger trace */
+.trace { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.trace-top { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; padding: 18px 20px; border-bottom: 1px solid var(--line); }
+.trace-top b { font: 600 17px var(--font-body); }
+.trace-top span { font-size: 13px; color: var(--muted); }
+.trace-top .ok { color: var(--ok); }
+.trace-scroll { overflow-x: auto; }
+.trace table { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 14px; }
+.trace th { text-align: left; font-weight: 600; font-size: 12px; color: var(--muted); padding: 10px 20px; border-bottom: 1px solid var(--line); }
+.trace th.axis { display: flex; justify-content: space-between; font-weight: 500; }
+.trace td { padding: 12px 20px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.trace tr:last-child td { border-bottom: 0; }
+.trace td.svc { width: 42%; }
+.svc b { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.svc b::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--c); flex: none; }
+.svc span { display: block; color: var(--muted); font-size: 13px; padding-left: 16px; }
+.lane { position: relative; height: 22px; }
+.span {
+  position: absolute; top: 4px; height: 14px; border-radius: 4px; background: var(--c);
+  left: var(--s); width: var(--w); transform-origin: left;
+  animation: grow .7s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--d);
+}
+.span em { position: absolute; left: calc(100% + 8px); top: -2px; font: normal 12px var(--font-mono); color: var(--muted); white-space: nowrap; }
+.span.end em { left: auto; right: calc(100% + 8px); }
+@keyframes grow { from { transform: scaleX(.02); } to { transform: scaleX(1); } }
+
+/* install */
+.install { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
+@media (max-width: 860px) { .install { grid-template-columns: 1fr; } }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-rows: 1fr; gap: 2px; counter-reset: s; }
+.steps li {
+  counter-increment: s; display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 14px; align-items: center;
+  padding: 16px 18px; background: var(--surface); border: 1px solid var(--line);
+}
+.steps li:first-child { border-radius: 14px 14px 0 0; }
+.steps li:last-child { border-radius: 0 0 14px 14px; }
+.steps li::before {
+  content: counter(s); display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+  background: var(--raised); color: var(--fg); font: 600 13px var(--font-mono);
+}
+.steps b { display: block; font-weight: 600; }
+.steps span { color: var(--muted); font-size: 15px; }
+.side { display: grid; grid-template-rows: auto 1fr; gap: 16px; }
+.side .panel:last-child { align-content: start; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 12px; min-width: 0; }
+.panel h3 { margin: 0; font: 600 17px var(--font-body); }
+.panel p { margin: 0; color: var(--muted); font-size: 15px; }
+.code { position: relative; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; min-width: 0; }
+.code pre { margin: 0; padding: 14px 64px 14px 14px; overflow-x: auto; font: 13px/1.7 var(--font-mono); }
+.code pre .c { color: var(--muted); }
+.copy {
+  position: absolute; top: 8px; right: 8px; font: 500 12px var(--font-body); padding: 5px 9px; border-radius: 7px;
+  background: var(--raised); color: var(--fg); border: 1px solid var(--line); cursor: pointer;
+}
+.copy.done { color: var(--ok); }
+
+/* releases */
+.releases { display: grid; gap: 12px; }
+.rel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+.rel summary {
+  list-style: none; cursor: pointer; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 6px 16px; align-items: center;
+  padding: 16px 20px;
+}
+.rel summary::-webkit-details-marker { display: none; }
+.rel .v { font: 600 17px var(--font-mono); letter-spacing: -.01em; }
+.rel .first { color: var(--muted); font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rel .when { color: var(--muted); font-size: 13px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pill { font: 600 11px/1 var(--font-body); padding: 4px 7px; border-radius: 6px; background: color-mix(in srgb, var(--ok) 18%, transparent); color: var(--ok); margin-left: 8px; vertical-align: 2px; }
+.rel[open] .first { visibility: hidden; }
+.rel .body { padding: 0 20px 20px; display: grid; gap: 16px; border-top: 1px solid var(--line); padding-top: 16px; }
+.notes, .notes ul { margin: 0; padding-left: 18px; display: grid; gap: 8px; }
+.notes ul { margin-top: 8px; }
+.notes li { color: var(--muted); max-width: 72ch; }
+.notes li b { color: var(--fg); font-weight: 600; }
+.rel .dl { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; font-size: 14px; }
+.rel .dl .mono { color: var(--muted); }
+@media (max-width: 560px) {
+  .rel summary { grid-template-columns: minmax(0, 1fr) auto; }
+  .rel .first { grid-column: 1 / -1; grid-row: 2; }
+}
+
+/* verify */
+.verify { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 16px; }
+.verify .compare { grid-column: 2; grid-row: 1 / span 2; align-content: start; }
+.verify .compare pre { padding-right: 14px; }
+@media (max-width: 760px) { .verify { grid-template-columns: 1fr; } .verify .compare { grid-column: auto; grid-row: auto; } }
+.hash { font: 13px/1.6 var(--font-mono); word-break: break-all; color: var(--fg); }
+
+/* contributors */
+.people { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 680px) { .people { grid-template-columns: 1fr; } }
+.person {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: center;
+  padding: 20px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line);
+  color: var(--fg); transition: border-color .2s, transform .15s ease;
+}
+.person:hover { text-decoration: none; border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); transform: translateY(-2px); }
+.person img { width: 72px; height: 72px; border-radius: 50%; box-shadow: 0 0 0 1px var(--line), 0 0 0 4px var(--bg), 0 0 0 5px var(--line); }
+.person .who { display: grid; gap: 2px; min-width: 0; }
+.person .name { font: 600 18px/1.25 var(--font-body); }
+.person .handle { display: inline-flex; align-items: center; gap: 6px; font: 13px var(--font-mono); color: var(--muted); }
+.person .handle svg { width: 14px; height: 14px; }
+.person .role { margin-top: 8px; color: var(--muted); font-size: 15px; }
+.person .role b { color: var(--fg); font-weight: 600; }
+
+footer { margin-top: 104px; border-top: 1px solid var(--line); padding-block: 28px 40px; color: var(--muted); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 24px; justify-content: space-between; }
+footer p { margin: 0; max-width: 64ch; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Site">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="avatar"><img src="assets/icon.png" alt="" width="128" height="128"></span><span>Jaeger Toolkit<small>Releases</small></span></a>
+    <ul>
+      <li><a href="#install">Install</a></li>
+      <li><a href="#releases">Releases</a></li>
+      <li><a href="#verify">Verify</a></li>
+      <li><a href="https://github.com/arshadaiyoob/jaeger-toolkit-releases" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="top">
+  <header class="wrap hero">
+    <span class="eyebrow"><i class="dot"></i><span data-latest-line>Version 1.37.5 · published 1 Nov 2026</span></span>
+    <h1>Jaeger,<br><span class="soft">made calm.</span></h1>
+    <p class="lede">A new interface for Jaeger: <b>search in plain words</b>, <b>traces that read like a story</b>, and <b>Claude beside every trace</b>. Same Jaeger. Same data. Easier to read.</p>
+    <div class="cta">
+      <a class="btn btn-primary" data-latest-href href="https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.5/JaegerToolkit-1.37.5.zip">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v9M4 7.5 8 11.5l4-4M3 14h10"/></svg>
+        <span>Download <span data-latest-version>1.37.5</span> <span class="sub" data-latest-size>· zip, 1.1 MB</span></span>
+      </a>
+      <a class="btn btn-quiet" href="#install">How to install</a>
+    </div>
+    <ul class="facts">
+      <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1.75" y="2.75" width="12.5" height="10.5" rx="2"/><path d="M1.75 5.75h12.5"/><circle cx="4" cy="4.25" r=".4" fill="currentColor"/><circle cx="5.6" cy="4.25" r=".4" fill="currentColor"/></svg>Chrome and Edge</li>
+      <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1.75 13.25 3.75v4c0 3.1-2.2 5.4-5.25 6.5C4.95 13.15 2.75 10.85 2.75 7.75v-4Z"/><path d="m5.75 8 1.6 1.6 3-3.2"/></svg>Signed releases</li>
+      <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.25 8A5.25 5.25 0 1 1 11.7 4.3"/><path d="M13.25 2.25v2.5h-2.5"/></svg>Updates itself from Settings › About</li>
+      <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="10" height="7" rx="1.25"/><path d="M1.5 12.75h13"/></svg>Runs in your browser, on your Jaeger</li>
+    </ul>
+    <div class="stage">
+      <div class="window" data-shot="dark">
+        <div class="bar"><i></i><i></i><i></i><span>jaeger › Search</span>
+          <div class="seg" role="group" aria-label="Screenshot look">
+            <button type="button" data-shot="dark" aria-pressed="true"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.5 10.2A6 6 0 0 1 5.8 2.5a6 6 0 1 0 7.7 7.7Z"/></svg>Dark</button>
+            <button type="button" data-shot="light" aria-pressed="false"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8" cy="8" r="3"/><path d="M8 1.5v1.5M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1 1M11.6 11.6l1 1M3.4 12.6l1-1M11.6 4.4l1-1"/></svg>Light</button>
+          </div>
+        </div>
+        <img class="shot-dark" src="assets/search-dark.jpg" alt="The search page in the dark look: a library on the left, results with chips for restaurant, order and status, and a preview of the selected trace on the right." width="1440" height="900">
+        <img class="shot-light" src="assets/search-light.jpg" alt="The search page in the light look." width="1440" height="900" loading="lazy">
+      </div>
+    </div>
+  </header>
+
+  <section class="wrap" id="features" aria-labelledby="features-h">
+    <div class="head">
+      <span class="label">What you get</span>
+      <h2 id="features-h">Everything Jaeger shows, easier to read.</h2>
+    </div>
+    <div class="features">
+      <article class="feature">
+        <div class="window"><img src="assets/lookup.jpg" alt="Find a trace: a restaurant and a time typed into a single field, with two ready searches suggested below." width="1440" height="900" loading="lazy"></div>
+        <div><h3>Search in plain words</h3><p>One field instead of a form. Press <kbd>/</kbd> anywhere to find a trace by its ID, a link, an order, a session or a restaurant.</p></div>
+      </article>
+      <article class="feature">
+        <div class="window"><img src="assets/trace.jpg" alt="A trace: the story card with services, HTTP codes and the first error, the timeline below, and a span's tags in an inspector." width="1440" height="900" loading="lazy"></div>
+        <div><h3>Traces that read like a story</h3><p>The path through your services, the time it took and the first error sit at the top. Press <kbd>E</kbd> for the next error.</p></div>
+      </article>
+      <article class="feature">
+        <div class="window"><img src="assets/claude.jpg" alt="The Claude card over the search results, with the question, two completed steps and a short answer." width="1440" height="900" loading="lazy"></div>
+        <div><h3>Claude, right beside you</h3><p>Ask why a trace failed or where the time went. Claude opens the traces it needs and answers in short sections you can copy for Slack.</p></div>
+      </article>
+      <article class="feature">
+        <div class="window"><img src="assets/payload.jpg" alt="The payload viewer: a folding JSON tree with a search field beside the trace." width="1440" height="900" loading="lazy"></div>
+        <div><h3>Every value, readable</h3><p>Request and response bodies in a tree you can fold and search with paths like <code>items[0].price</code>, decode base64 in place, and diff two payloads.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="wrap" id="install" aria-labelledby="install-h">
+    <div class="head">
+      <span class="label">Install</span>
+      <h2 id="install-h">Four steps, once.</h2>
+      <p>After that, Software Update keeps it current. You don't need a GitHub account.</p>
+    </div>
+    <div class="install">
+      <ol class="steps">
+        <li><div><b>Download the zip</b><span>Get <a data-latest-href href="https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.5/JaegerToolkit-1.37.5.zip"><code data-latest-zip>JaegerToolkit-1.37.5.zip</code></a> and unzip it somewhere permanent, like your Applications or Documents folder.</span></div></li>
+        <li><div><b>Turn on Developer mode</b><span>Open <code>chrome://extensions</code> (or <code>edge://extensions</code>) and switch on Developer mode at the top right.</span></div></li>
+        <li><div><b>Load unpacked</b><span>Click Load unpacked and choose the unzipped folder.</span></div></li>
+        <li><div><b>Open Jaeger</b><span>The welcome greets you in the new look and walks you through three short steps.</span></div></li>
+      </ol>
+      <div class="side">
+        <div class="panel">
+          <h3>Connect Claude and Software Update</h3>
+          <p>One helper runs Claude Code with your own login and installs updates. Run it once from the unzipped folder (Node.js and Claude Code must be installed).</p>
+          <div class="code"><pre id="cmd-helper"><span class="c"># macOS</span>
+sh native-host/install.sh
+<span class="c"># Windows: double-click</span>
+native-host\install.cmd</pre><button class="copy" type="button" data-copy="sh native-host/install.sh">Copy</button></div>
+        </div>
+        <div class="panel">
+          <h3>Already installed?</h3>
+          <p>Open <b>Settings › About</b> and choose <b>Update now</b>. Your settings, documents and history stay, because they live in the browser. A git checkout is never overwritten.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="path" aria-labelledby="path-h">
+    <div class="head">
+      <span class="label">How a release reaches you</span>
+      <h2 id="path-h">One tag, traced to your browser.</h2>
+      <p>Each release is built, signed and published here by a workflow. Your copy installs it only after checking the signature, the size and the SHA-256.</p>
+    </div>
+    <div class="trace" role="figure" aria-label="The release path as a trace with six spans, from the git tag to the extension restarting.">
+      <div class="trace-top">
+        <b>release <span class="mono" data-latest-tag>v1.37.5</span></b>
+        <span>6 services</span><span>6 spans</span><span class="ok">0 errors</span>
+      </div>
+      <div class="trace-scroll">
+        <table>
+          <thead><tr><th>Service &amp; operation</th><th class="axis"><span>tag pushed</span><span>within a day</span><span>installed</span></th></tr></thead>
+          <tbody>
+            <tr style="--c: var(--span-1)"><td class="svc"><b>git</b><span>push tag <span data-latest-tag>v1.37.5</span></span></td><td><div class="lane"><i class="span" style="--s:0%;--w:4%;--d:.05s"></i></div></td></tr>
+            <tr style="--c: var(--span-2)"><td class="svc"><b>release.yml</b><span>build, test and package the zip</span></td><td><div class="lane"><i class="span" style="--s:4%;--w:22%;--d:.15s"><em>Actions</em></i></div></td></tr>
+            <tr style="--c: var(--span-4)"><td class="svc"><b>release-feed</b><span>sign latest.json with the release key</span></td><td><div class="lane"><i class="span" style="--s:26%;--w:6%;--d:.25s"></i></div></td></tr>
+            <tr style="--c: var(--span-3)"><td class="svc"><b>jaeger-toolkit-releases</b><span>publish the zip and the feed</span></td><td><div class="lane"><i class="span" style="--s:32%;--w:6%;--d:.35s"><em>this repository</em></i></div></td></tr>
+            <tr style="--c: var(--span-6)"><td class="svc"><b>Software Update</b><span>reads the feed at browser start, daily, or on Check now</span></td><td><div class="lane"><i class="span" style="--s:38%;--w:48%;--d:.45s"></i></div></td></tr>
+            <tr style="--c: var(--span-5)"><td class="svc"><b>native helper</b><span>verify signature, size, SHA-256; install; restart</span></td><td><div class="lane"><i class="span end" style="--s:86%;--w:14%;--d:.6s"><em>Update now</em></i></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="releases" aria-labelledby="releases-h">
+    <div class="head">
+      <span class="label">Releases</span>
+      <h2 id="releases-h">What's new.</h2>
+      <p>Every version, newest first. Each zip is the whole extension; you never need the ones in between.</p>
+    </div>
+    <div class="releases" id="release-list"></div>
+  </section>
+
+  <section class="wrap" id="verify" aria-labelledby="verify-h">
+    <div class="head">
+      <span class="label">Verify</span>
+      <h2 id="verify-h">Check what you downloaded.</h2>
+      <p>Software Update does this for you. If you load a zip by hand, you can check it yourself.</p>
+    </div>
+    <div class="verify">
+      <div class="panel">
+        <h3>SHA-256 of <span data-latest-version>1.37.5</span></h3>
+        <p class="hash" id="sha">20f212f278bb94ca737d344519b549ca49b12c8b0c48904f4603b345a49575ae</p>
+        <button class="btn btn-quiet" type="button" id="copy-sha" style="width:fit-content;padding:9px 14px;font-size:14px">Copy hash</button>
+      </div>
+      <div class="panel compare">
+        <h3>Compare it</h3>
+        <p>In the folder you downloaded to:</p>
+        <div class="code"><pre><span class="c"># macOS</span>
+shasum -a 256 <span data-latest-zip>JaegerToolkit-1.37.5.zip</span>
+<span class="c"># Windows</span>
+certutil -hashfile <span data-latest-zip>JaegerToolkit-1.37.5.zip</span> SHA256</pre></div>
+      </div>
+      <div class="panel">
+        <h3>The signed feed</h3>
+        <p>Each release carries <code>latest.json</code>: the version, size, SHA-256 and a signature made with the release key. Copies of the toolkit trust only the public key they shipped with.</p>
+        <a href="https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/latest/download/latest.json" target="_blank" rel="noopener">Open latest.json</a>
+      </div>
+    </div>
+  </section>
+  <section class="wrap" id="people" aria-labelledby="people-h">
+    <div class="head">
+      <span class="label">Contributors</span>
+      <h2 id="people-h">Made by.</h2>
+    </div>
+    <div class="people">
+      <a class="person" href="https://github.com/dimuththarindu" target="_blank" rel="noopener">
+        <img src="assets/av-dimuththarindu.jpg" alt="" width="72" height="72" loading="lazy">
+        <span class="who">
+          <span class="name">Dimuth Tharindu</span>
+          <span class="handle"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>dimuththarindu</span>
+          <span class="role"><b>Initial idea and implementation.</b> Where the toolkit began.</span>
+        </span>
+      </a>
+      <a class="person" href="https://github.com/arshadaiyoob" target="_blank" rel="noopener">
+        <img src="assets/av-arshadaiyoob.png" alt="" width="72" height="72" loading="lazy">
+        <span class="who">
+          <span class="name">Arshad Aiyoob</span>
+          <span class="handle"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>arshadaiyoob</span>
+          <span class="role"><b>UI and Claude.</b> The new interface, and Claude beside every trace.</span>
+        </span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Jaeger Toolkit runs entirely in your browser, on your Jaeger. It talks to nothing else, except Claude when you ask it something. This repository holds only the built releases; the source is private.</p>
+    <p><a href="https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases" target="_blank" rel="noopener">All releases on GitHub</a></p>
+  </div>
+</footer>
+
+<script type="application/json" id="release-data">[{"tag":"v1.37.5","published":"2026-11-01T01:58:22Z","body":"\n- **No scrollbar flashes on the welcome card** as it eases to the next page's height. It still scrolls on a window too\n  short for it, and never sideways.\n\n\n### Install\nDownload **JaegerToolkit-1.37.5.zip** below, unzip it, then in `chrome://extensions` turn on Developer mode and choose **Load unpacked**. Updating: replace the folder and click reload on the extension's card.\n","zip":{"name":"JaegerToolkit-1.37.5.zip","size":1093395,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.5/JaegerToolkit-1.37.5.zip"}},{"tag":"v1.37.4","published":"2026-11-01T01:51:10Z","body":"\n- **The welcome card no longer redraws itself.**\n  - Search, Trace and Claude: the selected pill slides across, the pictures fade from one to the next and the words\n    follow. The divider stays where you left it.\n  - A look or a palette changes only the choice and the card's colours, which ease into the new look.\n  - Next and Back slide the page in from the side it comes from, and the card eases to its new height. The dots grow\n    into place.\n- **\"Let's go\" sends the card down into the Claude orb** at the bottom right, instead of fading out.\n\n\n### Install\nDownload **JaegerToolkit-1.37.4.zip** below, unzip it, then in `chrome://extensions` turn on Developer mode and choose **Load unpacked**. Updating: replace the folder and click reload on the extension's card.\n","zip":{"name":"JaegerToolkit-1.37.4.zip","size":1093184,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.4/JaegerToolkit-1.37.4.zip"}},{"tag":"v1.37.3","published":"2026-11-01T00:26:51Z","body":"\n- **The update shows its progress as it happens.**\n  - The download fills its part of the bar as it arrives, with how much is in (\"0.6 of 1.1 MB\").\n  - The bar glides from step to step with a soft light running along it.\n  - The steps rise in one after another. The current one has a turning ring, and a finished one pops a green tick.\n  - Checking for updates turns its icon.\n  - Only the bar and the steps change while it runs, so the motion never starts over.\n\n\n### Install\nDownload **JaegerToolkit-1.37.3.zip** below, unzip it, then in `chrome://extensions` turn on Developer mode and choose **Load unpacked**. Updating: replace the folder and click reload on the extension's card.\n","zip":{"name":"JaegerToolkit-1.37.3.zip","size":1092056,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.3/JaegerToolkit-1.37.3.zip"}},{"tag":"v1.37.2","published":"2026-11-01T00:22:34Z","body":"\n- **After an update, open Jaeger tabs reload by themselves.** They used to stay on \"Restarting\" until you refreshed\n  them: the restart had cut them off from the new version. Reloading the extension by hand still leaves your tabs\n  alone.\n\n\n### Install\nDownload **JaegerToolkit-1.37.2.zip** below, unzip it, then in `chrome://extensions` turn on Developer mode and choose **Load unpacked**. Updating: replace the folder and click reload on the extension's card.\n","zip":{"name":"JaegerToolkit-1.37.2.zip","size":1090944,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.2/JaegerToolkit-1.37.2.zip"}},{"tag":"v1.37.1","published":"2026-11-01T00:16:59Z","body":"\n- **Releases publish themselves.** From this version the release workflow signs each release and puts it in the public\n  releases repository on its own, so Software Update offers it to everyone within a day (or at once with Check now).\n\n\n### Install\nDownload **JaegerToolkit-1.37.1.zip** below, unzip it, then in `chrome://extensions` turn on Developer mode and choose **Load unpacked**. Updating: replace the folder and click reload on the extension's card.\n","zip":{"name":"JaegerToolkit-1.37.1.zip","size":1090587,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.1/JaegerToolkit-1.37.1.zip"}},{"tag":"v1.37.0","published":"2026-10-31T20:49:52Z","body":"\n- **Software Update** (Settings › About). The toolkit checks for a newer release when the browser starts and once a\n  day, and on Check now; Check automatically can be turned off.\n  - **Where it shows:** an Update badge on the toolkit's card at the top of Settings, the version with its notes in\n    About, and one quiet toast in Jaeger per new version.\n  - **Update now:** the helper on your computer (the one Claude Code uses) downloads the release, checks it, puts the\n    files in the folder the extension is loaded from, and the extension restarts. Settings, documents and history\n    stay: they live in the browser.\n  - **Signed:** a release is installed only when its signature matches the release key shipped with the toolkit, and\n    only if its size and SHA-256 match what was signed. Any failure leaves the version you have in place.\n  - **Never overwritten:** a git checkout, which shows git pull instead.\n  - **Without the helper:** Download gets the zip, to load unpacked as before.\n- **Releases** are published, signed, to a public repository that holds only the built zips\n  (arshadaiyoob/jaeger-toolkit-releases), so nobody needs a GitHub login to update. The source stays private.\n  - tools/release-key.mjs makes the signing key once.\n  - tools/release-feed.mjs signs each release's feed in the release workflow.\n\n","zip":{"name":"JaegerToolkit-1.37.0.zip","size":1090517,"url":"https://github.com/arshadaiyoob/jaeger-toolkit-releases/releases/download/v1.37.0/JaegerToolkit-1.37.0.zip"}}]</script>
+<script>
+(function () {
+  var REPO = 'arshadaiyoob/jaeger-toolkit-releases';
+  var embedded = JSON.parse(document.getElementById('release-data').textContent);
+
+  function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function inline(s) {
+    return esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/`([^`]+)`/g, '<code>$1</code>');
+  }
+  // the release body is CHANGELOG markdown: bullets, two-space nested bullets, wrapped lines; the Install footer is dropped
+  function notes(body) {
+    body = body.split(/\n#{2,3} Install/)[0].trim();
+    var items = [];
+    body.split('\n').forEach(function (line) {
+      var m = line.match(/^(\s*)- (.*)$/);
+      if (m) items.push({ depth: m[1].length >= 2 ? 1 : 0, text: m[2] });
+      else if (line.trim() && items.length) items[items.length - 1].text += ' ' + line.trim();
+    });
+    var top = [];
+    items.forEach(function (it) {
+      if (it.depth === 1 && top.length) top[top.length - 1].kids.push(it.text);
+      else top.push({ text: it.text, kids: [] });
+    });
+    return '<ul class="notes">' + top.map(function (t) {
+      return '<li>' + inline(t.text) +
+        (t.kids.length ? '<ul>' + t.kids.map(function (k) { return '<li>' + inline(k) + '</li>'; }).join('') + '</ul>' : '') + '</li>';
+    }).join('') + '</ul>';
+  }
+  function plain(body) {
+    var m = body.match(/- \*\*(.+?)\*\*/);
+    return m ? m[1].replace(/\.$/, '') : body.replace(/[*`#-]/g, '').trim().slice(0, 90);
+  }
+  function mb(bytes) { return (bytes / 1048576).toFixed(1) + ' MB'; }
+  function day(iso) { return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); }
+
+  function render(list) {
+    var latest = list[0];
+    var v = latest.tag.replace(/^v/, '');
+    document.querySelectorAll('[data-latest-version]').forEach(function (el) { el.textContent = v; });
+    document.querySelectorAll('[data-latest-tag]').forEach(function (el) { el.textContent = latest.tag; });
+    document.querySelectorAll('[data-latest-zip]').forEach(function (el) { el.textContent = latest.zip.name; });
+    document.querySelectorAll('[data-latest-href]').forEach(function (el) { el.href = latest.zip.url; });
+    document.querySelectorAll('[data-latest-size]').forEach(function (el) { el.textContent = '· zip, ' + mb(latest.zip.size); });
+    document.querySelectorAll('[data-latest-line]').forEach(function (el) { el.textContent = 'Version ' + v + ' · published ' + day(latest.published); });
+
+    document.getElementById('release-list').innerHTML = list.map(function (r, i) {
+      return '<details class="rel"' + (i === 0 ? ' open' : '') + '>' +
+        '<summary><span class="v">' + esc(r.tag.replace(/^v/, '')) + (i === 0 ? '<span class="pill">Latest</span>' : '') + '</span>' +
+        '<span class="first">' + inline(plain(r.body)) + '</span>' +
+        '<span class="when">' + day(r.published) + '</span></summary>' +
+        '<div class="body">' + notes(r.body) +
+        '<div class="dl"><a href="' + esc(r.zip.url) + '">Download ' + esc(r.zip.name) + '</a><span class="mono">' + mb(r.zip.size) + '</span>' +
+        '<a href="https://github.com/' + REPO + '/releases/tag/' + encodeURIComponent(r.tag) + '" target="_blank" rel="noopener">On GitHub</a></div>' +
+        '</div></details>';
+    }).join('');
+  }
+
+  render(embedded);
+
+  // read the newest releases live; if GitHub can't be reached (or its hourly limit is used up), the list built into the
+  // page stays
+  if (window.fetch) {
+    fetch('https://api.github.com/repos/' + REPO + '/releases?per_page=20')
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+      .then(function (data) {
+        var list = data.filter(function (r) { return !r.draft && !r.prerelease; }).map(function (r) {
+          var zip = r.assets.filter(function (a) { return /\.zip$/.test(a.name); })[0];
+          return zip && { tag: r.tag_name, published: r.published_at, body: r.body || '', zip: { name: zip.name, size: zip.size, url: zip.browser_download_url } };
+        }).filter(Boolean);
+        if (list.length) render(list);
+        return fetch('https://github.com/' + REPO + '/releases/latest/download/latest.json');
+      })
+      .then(function (r) { return r && r.ok ? r.json() : null; })
+      .then(function (feed) { if (feed && feed.sha256) document.getElementById('sha').textContent = feed.sha256; })
+      .catch(function () {});
+  }
+
+  // the hero screenshot opens in the dark look, the toolkit's default; Light swaps it
+  var win = document.querySelector('.stage .window');
+  var segs = win.querySelectorAll('.seg button');
+  segs.forEach(function (b) {
+    b.addEventListener('click', function () {
+      win.dataset.shot = b.dataset.shot;
+      segs.forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
+    });
+  });
+
+  function copy(btn, text) {
+    var label = btn.textContent;
+    (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject())
+      .then(function () { btn.textContent = 'Copied'; btn.classList.add('done'); })
+      .catch(function () {
+        var range = document.createRange(); range.selectNodeContents(btn.previousElementSibling || btn);
+        var sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
+        btn.textContent = 'Selected, press ⌘C';
+      })
+      .finally(function () { setTimeout(function () { btn.textContent = label; btn.classList.remove('done'); }, 1800); });
+  }
+  document.querySelectorAll('.copy').forEach(function (b) { b.addEventListener('click', function () { copy(b, b.dataset.copy); }); });
+  var shaBtn = document.getElementById('copy-sha');
+  shaBtn.addEventListener('click', function () {
+    var label = shaBtn.textContent, text = document.getElementById('sha').textContent;
+    (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject())
+      .then(function () { shaBtn.textContent = 'Copied'; })
+      .catch(function () {
+        var range = document.createRange(); range.selectNodeContents(document.getElementById('sha'));
+        var sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
+        shaBtn.textContent = 'Selected, press ⌘C';
+      })
+      .finally(function () { setTimeout(function () { shaBtn.textContent = label; }, 1800); });
+  });
+})();
+</script>
+</body>
+</html>
